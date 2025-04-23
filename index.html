@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>USER NEKO ♥</title>
   <style>
     body {
@@ -89,6 +89,7 @@
   </style>
 </head>
 <body>
+
   <header>
     USER NEKO ♥ - Update Anime Terbaru
   </header>
@@ -102,7 +103,7 @@
   <section class="admin-section" id="adminSection" style="display: none;">
     <h2>Masukkan Kata Kunci Admin</h2>
     <input type="text" id="adminKeyword" placeholder="Kata Kunci Admin" />
-    <button class="btn-pink" onclick="verifyAdmin(NEKO PINK)">Verifikasi Admin</button>
+    <button class="btn-pink" onclick="verifyAdmin()">Verifikasi Admin</button>
   </section>
 
   <section class="anime-upload" id="animeUploadSection" style="display: none;">
@@ -177,6 +178,7 @@
         `;
         list.appendChild(card);
 
+        // Clear input fields
         titleInput.value = '';
         descInput.value = '';
         genreInput.value = '';
