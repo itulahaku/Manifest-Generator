@@ -9,7 +9,7 @@ Website ini adalah aplikasi untuk menampilkan dan mengelola koleksi anime terbar
 - Web statis dihosting di GitHub Pages.
 
 ## Demo
-[Klik di sini untuk melihat demo website](https://<akuajalah>.github.io/<USER-NEKO-Update-anime>/)
+[Klik di sini untuk melihat demo website](https://<akuajalah>.github.io/<Manifest-Gegerator>/)
 
 ## Teknologi yang Digunakan
 - **HTML**: Struktur halaman web.
@@ -24,4 +24,4 @@ Untuk menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
 
 1. **Clone repository**:
    ```bash
-   git clone https://github.com/<akuajalah>/<USER-NEKO-Update-anime>.git
+   git clone https://github.com/<akuajalah>/<Manifest-Generator>.git
