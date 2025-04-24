@@ -1,192 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>USER NEKO ♥</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #ffe6f0;
-      color: #333;
-    }
-
-    header {
-      background-color: #ff66b2;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 2em;
-    }
-
-    .anime-upload, .admin-section, .admin-check {
-      padding: 20px;
-      background-color: #fff0f5;
-      border-top: 2px solid #ff99cc;
-    }
-
-    input, textarea, button {
-      display: block;
-      margin: 10px auto;
-      width: 90%;
-      max-width: 400px;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-    }
-
-    .anime-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .anime-card {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      overflow: hidden;
-      text-align: center;
-      padding-bottom: 10px;
-    }
-
-    .anime-card img {
-      width: 100%;
-      height: auto;
-    }
-
-    .anime-card h3 {
-      margin: 10px 0 5px;
-      background-color: #ffe6f0;
-    }
-
-    .anime-card p {
-      margin: 5px 10px;
-    }
-
-    .btn-pink {
-      background-color: #ff66b2;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .btn-pink:hover {
-      background-color: #ff3399;
-    }
-
-    footer {
-      background-color: #ffe6f0;
-      color: #ff66b2;
-      text-align: center;
-      padding: 15px;
-      font-size: 0.9em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manifest JSON Generator</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #ff66b3;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 36px;
+            text-shadow: 0 0 10px #ff66b3, 0 0 20px #ff66b3;
+        }
+        h2 {
+            color: #ff66b3;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        form {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 0 20px;
+            box-shadow: 0 0 15px rgba(255, 102, 179, 0.5);
+        }
+        label {
+            font-size: 18px;
+            color: #ff66b3;
+        }
+        input[type="text"] {
+            background-color: #444;
+            color: #fff;
+            border: 2px solid #ff66b3;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        button, a#download-btn, #toggle-output {
+            background-color: #ff66b3;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        button:hover, a#download-btn:hover, #toggle-output:hover {
+            background-color: #ff3385;
+        }
+        #output-json {
+            background-color: #333;
+            padding: 20px;
+            color: #fff;
+            border-radius: 10px;
+            margin: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            border: 2px solid #ff66b3;
+            display: none;
+        }
+        .uuid-entry {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Generator manifest.json</h1>
+    <form id="manifest-form">
+        <label for="addon-name">Nama Addon:</label>
+        <input type="text" id="addon-name" name="addon-name" required><br><br>
 
-  <header>
-    USER NEKO ♥ - Update Anime Terbaru
-  </header>
+        <label for="addon-description">Deskripsi Addon:</label>
+        <input type="text" id="addon-description" name="addon-description" required><br><br>
 
-  <section class="admin-check" id="adminCheck">
-    <h2>Apakah Anda Admin?</h2>
-    <button class="btn-pink" onclick="askAdmin()">Ya, saya admin</button>
-    <button class="btn-pink" onclick="bukanAdmin()">Bukan, saya pembaca saja</button>
-  </section>
+        <label for="minecraft-version">Versi Minecraft Bedrock:</label>
+        <input type="text" id="minecraft-version" name="minecraft-version" placeholder="Contoh: 1.21.61" required><br><br>
 
-  <section class="admin-section" id="adminSection" style="display: none;">
-    <h2>Masukkan Kata Kunci Admin</h2>
-    <input type="text" id="adminKeyword" placeholder="Kata Kunci Admin" />
-    <button class="btn-pink" onclick="verifyAdmin()">Verifikasi Admin</button>
-  </section>
+        <h3>UUID Addon:</h3>
+        <div id="uuid-container">
+            <div class="uuid-entry">
+                <input type="text" name="uuid[]" placeholder="UUID Addon" required>
+            </div>
+        </div>
+        <button type="button" id="add-uuid">+ Tambah UUID</button><br><br>
 
-  <section class="anime-upload" id="animeUploadSection" style="display: none;">
-    <h2>Tuangkan (Khusus Admin)</h2>
-    <input type="file" id="animeImage" accept="image/*" />
-    <input type="text" id="animeTitle" placeholder="Judul Anime" />
-    <textarea id="animeDescription" placeholder="Deskripsi Anime"></textarea>
-    <input type="text" id="animeGenre" placeholder="Genre (pisahkan dengan koma, contoh: Action, Fantasy, Comedy)" />
-    <input type="date" id="animeDate" />
-    <button class="btn-pink" onclick="addAnime()">Tambah</button>
-  </section>
+        <button type="submit">Buat manifest.json</button><br><br>
 
-  <section class="anime-list" id="animeList">
-    <!-- Anime cards will appear here -->
-  </section>
+        <button type="button" onclick="window.open('https://wchan88704.github.io/WX-UUID-generator/', '_blank')">Ke Generator UUID</button><br><br>
+    </form>
 
-  <footer>
-    © 2025 USER NEKO ♥ Buatan penuh cinta
-  </footer>
+    <h2>Manifest JSON yang Dihasilkan:</h2>
+    <button id="toggle-output" style="display: none;">Lihat Hasil</button>
+    <pre id="output-json" style="display: none;"></pre>
+    <a id="download-btn" style="display: none;">Download manifest.json</a>
 
-  <script>
-    function askAdmin() {
-      document.getElementById('adminCheck').style.display = 'none';
-      document.getElementById('adminSection').style.display = 'block';
-    }
+    <script>
+        document.getElementById("add-uuid").addEventListener("click", function() {
+            var uuidContainer = document.getElementById("uuid-container");
+            var newEntry = document.createElement("div");
+            newEntry.classList.add("uuid-entry");
+            newEntry.innerHTML = '<input type="text" name="uuid[]" placeholder="UUID Addon" required>';
+            uuidContainer.appendChild(newEntry);
+        });
 
-    function bukanAdmin() {
-      document.getElementById('adminCheck').style.display = 'none';
-      document.getElementById('animeList').scrollIntoView({ behavior: 'smooth' });
-    }
+        document.getElementById("manifest-form").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-    function verifyAdmin() {
-      const adminKeyword = document.getElementById('adminKeyword').value.trim();
-      if (adminKeyword === 'NEKO PINK') {
-        document.getElementById('adminSection').style.display = 'none';
-        document.getElementById('animeUploadSection').style.display = 'block';
-        alert('Selamat datang Admin! Anda sekarang bisa menambahkan/update anime.');
-      } else {
-        alert('Kata kunci salah! Anda bukan admin.');
-      }
-    }
+            var addonName = document.getElementById("addon-name").value;
+            var addonDescription = document.getElementById("addon-description").value;
+            var minecraftVersion = document.getElementById("minecraft-version").value;
+            var uuids = Array.from(document.querySelectorAll('input[name="uuid[]"]')).map(input => input.value);
 
-    function addAnime() {
-      const imageInput = document.getElementById('animeImage');
-      const titleInput = document.getElementById('animeTitle');
-      const descInput = document.getElementById('animeDescription');
-      const genreInput = document.getElementById('animeGenre');
-      const dateInput = document.getElementById('animeDate');
-      const list = document.getElementById('animeList');
+            var manifestData = {
+                "format_version": 2,
+                "header": {
+                    "description": addonDescription,
+                    "name": addonName,
+                    "uuid": uuids[0],
+                    "version": [1, 0, 0]
+                },
+                "modules": [
+                    {
+                        "description": addonDescription,
+                        "entry": "scripts/main.js",
+                        "type": "scripting",
+                        "uuid": uuids[1] || uuids[0],
+                        "version": [1, 0, 0]
+                    }
+                ],
+                "dependencies": {
+                    "minecraft": {
+                        "version": minecraftVersion
+                    }
+                }
+            };
 
-      if (
-        !imageInput.files.length ||
-        !titleInput.value.trim() ||
-        !descInput.value.trim() ||
-        !genreInput.value.trim() ||
-        !dateInput.value
-      ) {
-        alert('Lengkapi semua data termasuk gambar, judul, deskripsi, genre, dan tanggal!');
-        return;
-      }
+            var outputJson = document.getElementById("output-json");
+            var downloadBtn = document.getElementById("download-btn");
+            var toggleButton = document.getElementById("toggle-output");
 
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const card = document.createElement('div');
-        card.className = 'anime-card';
-        card.innerHTML = `
-          <img src="${e.target.result}" alt="Anime Image" />
-          <h3>${titleInput.value}</h3>
-          <p><strong>Deskripsi:</strong> ${descInput.value}</p>
-          <p><strong>Genre:</strong> ${genreInput.value}</p>
-          <p><strong>Tanggal Rilis:</strong> ${dateInput.value}</p>
-        `;
-        list.appendChild(card);
+            outputJson.textContent = JSON.stringify(manifestData, null, 4);
 
-        // Clear input fields
-        titleInput.value = '';
-        descInput.value = '';
-        genreInput.value = '';
-        dateInput.value = '';
-        imageInput.value = '';
-      };
-      reader.readAsDataURL(imageInput.files[0]);
-    }
-  </script>
+            var blob = new Blob([JSON.stringify(manifestData, null, 4)], { type: "application/json" });
+            var url = URL.createObjectURL(blob);
+            downloadBtn.setAttribute("href", url);
+            downloadBtn.setAttribute("download", "manifest.json");
+            downloadBtn.style.display = 'inline';
+
+            toggleButton.style.display = 'inline';
+            outputJson.style.display = 'none';
+
+            toggleButton.addEventListener("click", function() {
+                if (outputJson.style.display === 'none') {
+                    outputJson.style.display = 'block';
+                    toggleButton.textContent = 'Sembunyikan Hasil';
+                } else {
+                    outputJson.style.display = 'none';
+                    toggleButton.textContent = 'Lihat Hasil';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+      © 2025 USER NEKO ♥ manifeat.json generator by WX X VelixsCraftMCY
